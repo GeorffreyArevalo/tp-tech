@@ -5,9 +5,10 @@ import com.pragma.bootcamps.tech.domain.spi.TechnologyPersistencePort;
 import com.pragma.bootcamps.tech.infrastructure.adapters.persistence.r2dbc.mappers.TechnologyEntityMapper;
 import com.pragma.bootcamps.tech.infrastructure.adapters.persistence.r2dbc.repositories.TechnologyReactiveRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
-
+@Component
 @RequiredArgsConstructor
 public class TechnologyPersistenceAdapter implements TechnologyPersistencePort {
 
