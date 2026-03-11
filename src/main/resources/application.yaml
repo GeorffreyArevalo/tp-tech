@@ -1,3 +1,18 @@
 spring:
   application:
     name: tech
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5432/tech
+    username: postgres
+    password: 1234
+
+server:
+  servlet:
+    context-path: /api
+  port: 8080
+
+routes:
+  paths:
+    tech: "/tech"
+
+
