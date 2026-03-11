@@ -5,7 +5,10 @@ import lombok.Getter;
 @Getter
 public enum BusinessCodesException {
 
-    TECHNOLOGY_ALREADY_EXISTS("04-TECH");
+    TECHNOLOGY_ALREADY_EXISTS("04-TECH"),
+    INVALID_FIELDS("04-FIELDS"),
+    INTERNAL_SERVER_ERROR("05-ERROR"),
+    SAVE_TECH("02-TECH");
 
     private final String code;
 
