@@ -14,12 +14,16 @@ spring:
     password: 1234
 
 server:
-  servlet:
-    context-path: /api
   port: 8080
+
+springdoc:
+  swagger-ui:
+    path: "/api/doc/tech/swagger-ui.html"
+  api-docs:
+    path: "/api/doc/tech/api-docs"
 
 routes:
   paths:
-    tech: "/tech"
+    tech: "/api/v1/tech"
 
 
