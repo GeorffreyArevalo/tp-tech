@@ -6,6 +6,13 @@ spring:
     username: postgres
     password: 1234
 
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    url: jdbc:postgresql://localhost:5432/tech
+    user: postgres
+    password: 1234
+
 server:
   servlet:
     context-path: /api
