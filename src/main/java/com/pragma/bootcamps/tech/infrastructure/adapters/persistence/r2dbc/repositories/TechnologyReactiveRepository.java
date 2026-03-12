@@ -4,6 +4,9 @@ import com.pragma.bootcamps.tech.infrastructure.adapters.persistence.r2dbc.entit
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
+
 public interface TechnologyReactiveRepository extends ReactiveCrudRepository<TechnologyEntity, Long> {
     Mono<TechnologyEntity> findByNameIgnoreCase(String name);
+    Mono<Long> countByIdIn(List<Long> ids);
 }
