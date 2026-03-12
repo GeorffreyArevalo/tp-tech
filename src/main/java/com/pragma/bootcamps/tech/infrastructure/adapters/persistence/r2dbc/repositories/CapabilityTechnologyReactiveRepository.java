@@ -2,6 +2,7 @@ package com.pragma.bootcamps.tech.infrastructure.adapters.persistence.r2dbc.repo
 
 import com.pragma.bootcamps.tech.infrastructure.adapters.persistence.r2dbc.entities.CapabilityTechnologyEntity;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
@@ -9,5 +10,6 @@ import java.util.List;
 public interface CapabilityTechnologyReactiveRepository extends ReactiveCrudRepository<CapabilityTechnologyEntity, Long> {
 
     Mono<Long> countAllByTechnologyIdIn(List<Long> technologyIds);
+    Flux<CapabilityTechnologyEntity> findAllByCapabilityId(Long capabilityId);
 
 }

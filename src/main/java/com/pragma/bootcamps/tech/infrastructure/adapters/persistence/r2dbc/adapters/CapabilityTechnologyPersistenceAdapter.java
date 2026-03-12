@@ -30,4 +30,10 @@ public class CapabilityTechnologyPersistenceAdapter implements CapabilityTechnol
                 .then()
                 .as(transactionalOperator::transactional);
     }
+
+    @Override
+    public Flux<Long> findTechnologyIdsByCapabilityId(Long capabilityId) {
+        return capabilityTechnologyReactiveRepository.findAllByCapabilityId(capabilityId)
+                .map(CapabilityTechnologyEntity::getTechnologyId);
+    }
 }

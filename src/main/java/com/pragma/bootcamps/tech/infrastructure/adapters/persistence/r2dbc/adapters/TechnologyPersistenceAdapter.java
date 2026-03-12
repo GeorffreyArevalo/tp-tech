@@ -34,4 +34,10 @@ public class TechnologyPersistenceAdapter implements TechnologyPersistencePort {
     public Mono<Long> countByIds(List<Long> technologyIds) {
         return technologyReactiveRepository.countByIdIn(technologyIds);
     }
+
+    @Override
+    public Mono<Technology> findTechnologyById(Long technologyId) {
+        return technologyReactiveRepository.findById(technologyId)
+                .map( mapper::toDomain );
+    }
 }
