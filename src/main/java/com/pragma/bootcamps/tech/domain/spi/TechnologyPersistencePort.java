@@ -10,5 +10,6 @@ public interface TechnologyPersistencePort {
     Mono<Technology> save(Technology technology);
     Mono<Technology> findByName(String name);
     Mono<Long> countByIds(List<Long> technologyIds);
+    Mono<Technology> findTechnologyById(Long technologyId);
 
 }

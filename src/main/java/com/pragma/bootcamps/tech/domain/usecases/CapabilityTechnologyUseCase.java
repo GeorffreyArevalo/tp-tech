@@ -5,9 +5,11 @@ import com.pragma.bootcamps.tech.domain.enums.ExceptionMessages;
 import com.pragma.bootcamps.tech.domain.exceptions.InvalidCountException;
 import com.pragma.bootcamps.tech.domain.exceptions.NotFoundException;
 import com.pragma.bootcamps.tech.domain.exceptions.RepeatedTechnologiesException;
+import com.pragma.bootcamps.tech.domain.models.Technology;
 import com.pragma.bootcamps.tech.domain.spi.CapabilityTechnologyPersistencePort;
 import com.pragma.bootcamps.tech.domain.spi.TechnologyPersistencePort;
 import lombok.RequiredArgsConstructor;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
@@ -35,6 +37,11 @@ public class CapabilityTechnologyUseCase implements CapabilityTechnologyServiceP
                         .thenReturn(ids))
                 .flatMap(ids -> capabilityTechnologyPersistencePort.saveAll(capabilityId, ids))
                 .then();
+    }
+
+    public Flux<Technology> getTechnologiesByCapabilityId(Long capabilityId) {
+        return capabilityTechnologyPersistencePort.findTechnologyIdsByCapabilityId(capabilityId)
+                .flatMap(technologyPersistencePort::findTechnologyById);
     }
 
     public boolean isValidTechnologiesCount(List<Long> techIds, int min, int max) {
