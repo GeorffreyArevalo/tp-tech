@@ -21,6 +21,7 @@ public class CapabilityTechnologyRouter {
     public RouterFunction<ServerResponse> routerFunctionCapabilityTechnology(CapabilityTechnologyHandler handler) {
         return route()
                 .POST(technologyPaths.getAssociate(), handler::listenAssociateTechnologies, CapabilityTechnologyOpenApi::associateTechnologies)
+                .GET(technologyPaths.getTechnologiesByCapabilityId(), handler::getTechnologiesByCapabilityId, CapabilityTechnologyOpenApi::getTechnologiesByCapabilityId)
                 .build();
     }
 

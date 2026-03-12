@@ -3,6 +3,7 @@ package com.pragma.bootcamps.tech.infrastructure.entrypoints.reactiveweb.handler
 import com.pragma.bootcamps.tech.domain.api.CapabilityTechnologyServicePort;
 import com.pragma.bootcamps.tech.domain.enums.BusinessHttpCodes;
 import com.pragma.bootcamps.tech.infrastructure.entrypoints.reactiveweb.dtos.requests.CapabilityTechnologyRequest;
+import com.pragma.bootcamps.tech.infrastructure.entrypoints.reactiveweb.mappers.TechnologyDtoMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -21,6 +22,7 @@ import static com.pragma.bootcamps.tech.infrastructure.entrypoints.reactiveweb.u
 public class CapabilityTechnologyHandler {
 
     private final CapabilityTechnologyServicePort capabilityTechnologyServicePort;
+    private final TechnologyDtoMapper mapper;
 
     public Mono<ServerResponse> listenAssociateTechnologies(ServerRequest serverRequest) {
         return serverRequest.bodyToMono(CapabilityTechnologyRequest.class)
@@ -32,6 +34,16 @@ public class CapabilityTechnologyHandler {
                         .contentType(MediaType.APPLICATION_JSON)
                         .bodyValue(buildBodySuccessResponse(BusinessHttpCodes.SAVE_CAP_TECH.getCode(), null))
                 );
+    }
+
+    public Mono<ServerResponse> getTechnologiesByCapabilityId(ServerRequest request) {
+        Long capabilityId = Long.valueOf(request.pathVariable("capabilityId"));
+        return capabilityTechnologyServicePort.getTechnologiesByCapabilityId(capabilityId)
+                .map(mapper::toTechnologySummaryResponse)
+                .collectList()
+                .flatMap(list -> ServerResponse.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .bodyValue(buildBodySuccessResponse(BusinessHttpCodes.OK.getCode(), list)));
     }
 
 

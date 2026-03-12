@@ -3,6 +3,7 @@ package com.pragma.bootcamps.tech.infrastructure.entrypoints.reactiveweb.mappers
 import com.pragma.bootcamps.tech.domain.models.Technology;
 import com.pragma.bootcamps.tech.infrastructure.entrypoints.reactiveweb.dtos.requests.TechnologyRequest;
 import com.pragma.bootcamps.tech.infrastructure.entrypoints.reactiveweb.dtos.responses.TechnologyResponse;
+import com.pragma.bootcamps.tech.infrastructure.entrypoints.reactiveweb.dtos.responses.TechnologySummaryResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
@@ -15,5 +16,7 @@ public interface TechnologyDtoMapper {
 
     Technology toDomain(TechnologyRequest request);
     TechnologyResponse toResponse(Technology technology);
+
+    TechnologySummaryResponse toTechnologySummaryResponse(Technology technology);
 
 }

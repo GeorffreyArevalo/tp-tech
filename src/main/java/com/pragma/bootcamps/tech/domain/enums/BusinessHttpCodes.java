@@ -6,6 +6,7 @@ import lombok.Getter;
 public enum BusinessHttpCodes {
 
     TECHNOLOGY_ALREADY_EXISTS("04-TECH"),
+    OK("02-OK"),
     INVALID_FIELDS("04-FIELDS"),
     INTERNAL_SERVER_ERROR("05-ERROR"),
     SAVE_TECH("02-TECH"),

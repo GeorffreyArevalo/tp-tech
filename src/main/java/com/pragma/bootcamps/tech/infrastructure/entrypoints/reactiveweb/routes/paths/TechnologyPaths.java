@@ -8,4 +8,5 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class TechnologyPaths {
     private String tech;
     private String associate;
+    private String technologiesByCapabilityId;
 }
