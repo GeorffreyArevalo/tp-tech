@@ -2,7 +2,7 @@ package com.pragma.bootcamps.tech.infrastructure.entrypoints.reactiveweb.handler
 
 
 import com.pragma.bootcamps.tech.domain.api.TechnologyServicePort;
-import com.pragma.bootcamps.tech.domain.enums.BusinessCodesException;
+import com.pragma.bootcamps.tech.domain.enums.BusinessHttpCodes;
 import com.pragma.bootcamps.tech.infrastructure.entrypoints.reactiveweb.dtos.requests.TechnologyRequest;
 import com.pragma.bootcamps.tech.infrastructure.entrypoints.reactiveweb.mappers.TechnologyDtoMapper;
 import com.pragma.bootcamps.tech.infrastructure.entrypoints.reactiveweb.utils.HandlersResponseUtil;
@@ -33,7 +33,7 @@ public class TechnologyHandler {
                 .map( technologyDtoMapper::toResponse )
                 .flatMap( savedTech ->
                         ServerResponse.ok().contentType(MediaType.APPLICATION_JSON)
-                                .bodyValue(HandlersResponseUtil.buildBodySuccessResponse(BusinessCodesException.SAVE_TECH.getCode(), savedTech))
+                                .bodyValue(HandlersResponseUtil.buildBodySuccessResponse(BusinessHttpCodes.SAVE_TECH.getCode(), savedTech))
                 );
     }
 

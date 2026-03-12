@@ -1,6 +1,6 @@
 package com.pragma.bootcamps.tech.infrastructure.entrypoints.reactiveweb.exceptions;
 
-import com.pragma.bootcamps.tech.domain.enums.BusinessCodesException;
+import com.pragma.bootcamps.tech.domain.enums.BusinessHttpCodes;
 import com.pragma.bootcamps.tech.domain.exceptions.TechnologyException;
 import com.pragma.bootcamps.tech.infrastructure.entrypoints.reactiveweb.dtos.responses.BusinessResponse;
 import com.pragma.bootcamps.tech.infrastructure.entrypoints.reactiveweb.utils.HandlersResponseUtil;
@@ -36,13 +36,13 @@ public class CustomErrorAttributes extends DefaultErrorAttributes {
             );
 
             case ConstraintViolationException cve -> HandlersResponseUtil.buildBodyFailureResponse(
-                    BusinessCodesException.INVALID_FIELDS.getCode(),
+                    BusinessHttpCodes.INVALID_FIELDS.getCode(),
                     MSG_INVALID_FIELDS,
                     formatConstraintViolations(cve)
             );
 
             default -> HandlersResponseUtil.buildBodyFailureResponse(
-                    BusinessCodesException.INTERNAL_SERVER_ERROR.getCode(),
+                    BusinessHttpCodes.INTERNAL_SERVER_ERROR.getCode(),
                     MSG_INTERNAL_ERROR,
                     null
             );

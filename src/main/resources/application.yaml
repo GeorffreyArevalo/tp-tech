@@ -25,5 +25,6 @@ springdoc:
 routes:
   paths:
     tech: "/api/v1/tech"
+    associate: "/api/v1/tech/associate"
 
 
