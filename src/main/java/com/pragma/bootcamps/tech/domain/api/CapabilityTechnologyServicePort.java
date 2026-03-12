@@ -1,4 +1,11 @@
 package com.pragma.bootcamps.tech.domain.api;
 
-public class CapabilityTechnologyServicePort {
+import reactor.core.publisher.Mono;
+
+import java.util.List;
+
+public interface CapabilityTechnologyServicePort {
+
+    Mono<Void> associateTechnologies(Long capabilityId, List<Long> technologyIds);
+
 }
