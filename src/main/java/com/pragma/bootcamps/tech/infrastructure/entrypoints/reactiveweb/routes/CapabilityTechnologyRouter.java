@@ -22,6 +22,7 @@ public class CapabilityTechnologyRouter {
         return route()
                 .POST(technologyPaths.getAssociate(), handler::listenAssociateTechnologies, CapabilityTechnologyOpenApi::associateTechnologies)
                 .GET(technologyPaths.getTechnologiesByCapabilityId(), handler::getTechnologiesByCapabilityId, CapabilityTechnologyOpenApi::getTechnologiesByCapabilityId)
+                .DELETE(technologyPaths.getDeleteTechnologiesByCapabilityIds(), handler::listenDeleteTechnologiesByCapabilityIds, CapabilityTechnologyOpenApi::deleteTechnologiesByCapabilityIds)
                 .build();
     }
 

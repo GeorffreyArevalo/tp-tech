@@ -14,6 +14,7 @@ import reactor.core.publisher.Mono;
 
 import java.net.URI;
 
+import static com.pragma.bootcamps.tech.infrastructure.entrypoints.reactiveweb.constants.CapabilityTechnologyHandlerLogMessages.*;
 import static com.pragma.bootcamps.tech.infrastructure.entrypoints.reactiveweb.utils.HandlersResponseUtil.buildBodySuccessResponse;
 
 @Slf4j
@@ -26,7 +27,7 @@ public class CapabilityTechnologyHandler {
 
     public Mono<ServerResponse> listenAssociateTechnologies(ServerRequest serverRequest) {
         return serverRequest.bodyToMono(CapabilityTechnologyRequest.class)
-                .doOnNext(request -> log.info("Received capability-technology association request: {}", request))
+                .doOnNext(request -> log.info(RECEIVED_ASSOCIATION_REQUEST, request))
                 .flatMap(request ->
                         capabilityTechnologyServicePort.associateTechnologies(request.capabilityId(), request.technologyIds())
                 )
@@ -41,10 +42,23 @@ public class CapabilityTechnologyHandler {
         return capabilityTechnologyServicePort.getTechnologiesByCapabilityId(capabilityId)
                 .map(mapper::toTechnologySummaryResponse)
                 .collectList()
+                .doOnNext(list -> log.info(TECHS_BY_CAPABILITY_RESPONSE, capabilityId, list))
                 .flatMap(list -> ServerResponse.ok()
                         .contentType(MediaType.APPLICATION_JSON)
                         .bodyValue(buildBodySuccessResponse(BusinessHttpCodes.OK.getCode(), list)));
     }
 
+    public Mono<ServerResponse> listenDeleteTechnologiesByCapabilityIds(ServerRequest request) {
+        return Mono.justOrEmpty(request.queryParams().get("ids"))
+                .map(ids -> ids.stream().map(Long::valueOf).toList())
+                .filter(ids -> !ids.isEmpty())
+                .flatMap(capabilityIds ->
+                        capabilityTechnologyServicePort.deleteTechnologiesByCapabilityIds(capabilityIds)
+                                .then(ServerResponse.noContent().build())
+                                .doOnSuccess(resp -> log.info(SUCCESS_CLEANUP, capabilityIds))
+                )
+                .switchIfEmpty(ServerResponse.badRequest().build())
+                .doOnError(e -> log.error(ERROR_CLEANUP, e.getMessage()));
+    }
 
 }

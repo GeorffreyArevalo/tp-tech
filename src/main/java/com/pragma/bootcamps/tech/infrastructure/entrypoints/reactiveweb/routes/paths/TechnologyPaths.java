@@ -9,4 +9,5 @@ public class TechnologyPaths {
     private String tech;
     private String associate;
     private String technologiesByCapabilityId;
+    private String deleteTechnologiesByCapabilityIds;
 }

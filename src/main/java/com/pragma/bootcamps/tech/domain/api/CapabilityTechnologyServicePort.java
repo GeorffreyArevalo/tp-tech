@@ -11,4 +11,5 @@ public interface CapabilityTechnologyServicePort {
     Mono<Void> associateTechnologies(Long capabilityId, List<Long> technologyIds);
     Flux<Technology> getTechnologiesByCapabilityId(Long capabilityId);
 
+    Mono<Void> deleteTechnologiesByCapabilityIds(List<Long> capabilityIds);
 }

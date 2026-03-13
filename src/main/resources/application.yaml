@@ -27,5 +27,6 @@ routes:
     tech: "/api/v1/tech"
     associate: "/api/v1/tech/associate"
     technologies-by-capability-id: "/api/v1/tech/capabilities/{capabilityId}/techs"
+    delete-technologies-by-capability-ids: "/api/v1/tech-capabilities"
 
 
