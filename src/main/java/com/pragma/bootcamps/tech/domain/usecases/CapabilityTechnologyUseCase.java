@@ -14,8 +14,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 
-import static com.pragma.bootcamps.tech.domain.constants.CapabilityConstants.MAX_TECHS;
-import static com.pragma.bootcamps.tech.domain.constants.CapabilityConstants.MIN_TECHS;
+import static com.pragma.bootcamps.tech.domain.constants.CapabilityConstants.*;
 
 
 @RequiredArgsConstructor
@@ -44,11 +43,36 @@ public class CapabilityTechnologyUseCase implements CapabilityTechnologyServiceP
                 .flatMap(technologyPersistencePort::findTechnologyById);
     }
 
-    public boolean isValidTechnologiesCount(List<Long> techIds, int min, int max) {
+    public Mono<Void> deleteTechnologiesByCapabilityIds(List<Long> capabilityIds) {
+        return capabilityTechnologyPersistencePort.findTechnologyIdsByCapabilityIds(capabilityIds)
+                .distinct()
+                .collectList()
+                .filter(candidateTechIds -> !candidateTechIds.isEmpty())
+                .flatMapMany(Flux::fromIterable)
+                .flatMap(techId -> identifyOrphanTechnology(techId, capabilityIds))
+                .collectList()
+                .flatMap(this::executeOrphanTechnologiesDelete)
+                .then(capabilityTechnologyPersistencePort.deleteAssociationsByCapabilityIds(capabilityIds));
+    }
+
+    private Mono<Long> identifyOrphanTechnology(Long techId, List<Long> capabilityIds) {
+        return capabilityTechnologyPersistencePort.countOtherCapacityAssociations(techId, capabilityIds)
+                .filter(otherUsagesCount -> otherUsagesCount == ZERO_OTHER_ASSOCIATIONS)
+                .map(unused -> techId);
+    }
+
+    private Mono<Void> executeOrphanTechnologiesDelete(List<Long> orphanTechIds) {
+        return Mono.just(orphanTechIds)
+                .filter(ids -> !ids.isEmpty())
+                .flatMap(technologyPersistencePort::deleteTechnologiesByIds)
+                .then();
+    }
+
+    private boolean isValidTechnologiesCount(List<Long> techIds, int min, int max) {
         return techIds != null && techIds.size() >= min && techIds.size() <= max;
     }
 
-    public boolean hasNoRepeatedTechnologies(List<Long> techIds) {
+    private boolean hasNoRepeatedTechnologies(List<Long> techIds) {
         return techIds != null && techIds.stream().distinct().count() == techIds.size();
     }
 }
